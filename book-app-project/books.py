@@ -419,6 +419,9 @@ class BookCollection:
             List[Book]: A list of all books where the author name is found.
                 Returns an empty list if no matches are found.
         
+        Raises:
+            ValidationError: If author is empty or only whitespace.
+        
         Examples:
             Find by full author name:
             
@@ -445,6 +448,8 @@ class BookCollection:
             find_book_by_title(): Find a single book by exact title
             list_books(): Get all books without filtering
         """
+        if not author or not author.strip():
+            raise ValidationError("Author cannot be empty")
         return [b for b in self.books if author.lower() in b.author.lower()]
 
     def list_unread_books(self) -> List[Book]:

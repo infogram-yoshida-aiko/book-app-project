@@ -356,6 +356,22 @@ def test_find_by_author_not_found():
     assert len(results) == 0
     assert isinstance(results, list)
 
+def test_find_by_author_empty_string_raises_error():
+    """Test that find_by_author with empty string raises ValidationError."""
+    collection = BookCollection()
+    collection.add_book("1984", "George Orwell", 1949)
+    
+    with pytest.raises(ValidationError, match="Author cannot be empty"):
+        collection.find_by_author("")
+
+def test_find_by_author_whitespace_only_raises_error():
+    """Test that find_by_author with whitespace-only string raises ValidationError."""
+    collection = BookCollection()
+    collection.add_book("1984", "George Orwell", 1949)
+    
+    with pytest.raises(ValidationError, match="Author cannot be empty"):
+        collection.find_by_author("   ")
+
 # =============================================================================
 # Comprehensive add_book edge case tests
 # =============================================================================
