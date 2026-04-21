@@ -446,3 +446,41 @@ class BookCollection:
             list_books(): Get all books without filtering
         """
         return [b for b in self.books if author.lower() in b.author.lower()]
+
+    def list_unread_books(self) -> List[Book]:
+        """Get all unread books from the collection.
+        
+        Returns only books where read=False. This is a read-only operation
+        that does not modify the collection or any book state. Results are
+        returned in insertion order (same order as list_books()).
+        
+        Returns:
+            List[Book]: A list of all unread Book objects.
+                Returns an empty list if all books have been read or the
+                collection is empty.
+        
+        Examples:
+            Get unread books from mixed collection:
+            
+            >>> collection = BookCollection()
+            >>> collection.add_book("1984", "George Orwell", 1949)
+            >>> collection.add_book("Dune", "Frank Herbert", 1965)
+            >>> collection.mark_as_read("1984")
+            >>> unread = collection.list_unread_books()
+            >>> len(unread)
+            1
+            >>> unread[0].title
+            'Dune'
+            
+            Empty when all books are read:
+            
+            >>> collection.mark_as_read("Dune")
+            >>> unread = collection.list_unread_books()
+            >>> len(unread)
+            0
+        
+        See Also:
+            list_books(): Get all books regardless of read status
+            mark_as_read(): Mark a book as read
+        """
+        return [b for b in self.books if not b.read]

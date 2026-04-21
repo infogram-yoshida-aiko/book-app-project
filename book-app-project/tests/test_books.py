@@ -658,3 +658,30 @@ def test_add_book_year_boundary_current_year_minus_1():
     collection = BookCollection()
     book = collection.add_book("Last Year Book", "Author", last_year)
     assert book.year == last_year
+
+# =============================================================================
+# list_unread_books() filtering tests - NEW FEATURE
+# =============================================================================
+
+def test_list_unread_books_returns_only_unread():
+    """Test that list_unread_books returns only unread books.
+    
+    Why: Primary functionality - must filter out read books and return only
+    those with read=False. This is the core behavior of the new feature.
+    """
+    collection = BookCollection()
+    collection.add_book("1984", "George Orwell", 1949)
+    collection.add_book("Dune", "Frank Herbert", 1965)
+    collection.add_book("Foundation", "Isaac Asimov", 1951)
+    
+    # Mark one book as read
+    collection.mark_as_read("Dune")
+    
+    # Arrange complete, now Act
+    unread = collection.list_unread_books()
+    
+    # Assert
+    assert len(unread) == 2
+    assert collection.find_book_by_title("1984") in unread
+    assert collection.find_book_by_title("Foundation") in unread
+    assert collection.find_book_by_title("Dune") not in unread
