@@ -450,7 +450,8 @@ class BookCollection:
         """
         if not author or not author.strip():
             raise ValidationError("Author cannot be empty")
-        return [b for b in self.books if author.lower() in b.author.lower()]
+        search_term = author.strip().lower()
+        return [b for b in self.books if search_term in b.author.lower()]
 
     def list_unread_books(self) -> List[Book]:
         """Get all unread books from the collection.
