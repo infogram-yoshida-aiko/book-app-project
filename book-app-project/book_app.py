@@ -66,6 +66,12 @@ def handle_find():
     display_books(books)
 
 
+def handle_unread():
+    """Display all unread books in the collection."""
+    books = collection.list_unread_books()
+    display_books(books)
+
+
 def show_help():
     """Display help message with available commands."""
     print("""
@@ -76,6 +82,7 @@ Commands:
   add      - Add a new book
   remove   - Remove a book by title
   find     - Find books by author
+  unread   - Show unread books only
   help     - Show this help message
 """)
 
@@ -95,6 +102,8 @@ def main():
         handle_remove()
     elif command == "find":
         handle_find()
+    elif command == "unread":
+        handle_unread()
     elif command == "help":
         show_help()
     else:
